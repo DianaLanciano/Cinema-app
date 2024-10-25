@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';        
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-
+import moviesRoutes from './routes/movie.routes.js';
+import showTimeRoutes from './routes/showTime.routes.js';
 /******************************************* CONFIGURATION *******************************************/
 dotenv.config(); 
 const app = express(); 
@@ -17,10 +18,7 @@ app.use(cors()); // allows requests from all origins
 
 /******************************************* ROUTES *******************************************/
 app.use("/api/movies", moviesRoutes);
-
-
-
-
+app.use("api/showTime", showTimeRoutes);
 
 
 

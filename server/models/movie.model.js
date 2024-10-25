@@ -33,7 +33,13 @@ const movieSchema = mongoose.Schema({
     ticketPrice: { 
         type: Number, 
         required: true 
+    },
+    isVisible: {
+        type: Boolean,
+        default: true,
+        require: true
     }
+
     
 });
 
