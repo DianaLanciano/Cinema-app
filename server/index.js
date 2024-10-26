@@ -27,7 +27,9 @@ app.use("/pubsub/update", pubsubRoutes);
 const setupPubSub = async () => {
   await connectRedis(); // Ensure Redis is connected
   // Subscribe to 'newMovieUpdate' channel
-  await subscriber.subscribe("newMovieUpdate");
+  await subscriber.subscribe("newMovieUpdate", (message) => {
+    console.log('message in index', message);
+  });
   console.log("newMovieUpdate subscribed");
   // catch messages from channels
   try {

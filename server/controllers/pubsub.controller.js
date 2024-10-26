@@ -15,7 +15,7 @@ export const newMovieUpdate = async (req, res) => {
   publisher.on('connect', () => console.log("Publisher connected"));
   // Publish message to 'actionsMovies' channel
   try {
-    await publisher.publish("newMovieUpdate", message);
+    await publisher.publish("newMovieUpdate", 'new Movie update from here');
     res.status(200).send(`New action movies update sent`);
   } catch (err) {
     console.error("Error publishing message:", err);

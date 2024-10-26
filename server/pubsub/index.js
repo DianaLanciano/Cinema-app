@@ -8,8 +8,6 @@ const subscriber = createClient();
 const connectRedis = async () => {
   try {
     await subscriber.connect();
-    subscriber.on('connect', () => console.log("Subscriber connected"));
-
     console.log("Connected to Redis");
   } catch (error) {
     console.error("Redis connection error:", error);
