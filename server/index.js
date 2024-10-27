@@ -28,18 +28,17 @@ const setupPubSub = async () => {
   await connectRedis(); // Ensure Redis is connected
   // Subscribe to 'newMovieUpdate' channel
   await subscriber.subscribe("newMovieUpdate", (message) => {
-    console.log('message in index', message);
+    console.log("message in index", message);
   });
   console.log("newMovieUpdate subscribed");
   // catch messages from channels
   try {
     await subscriber.on("message", (channel, message) => {
-        console.log(`Received message on ${channel}:`, message);
-      });
+      console.log(`Received message on ${channel}:`, message);
+    });
   } catch (error) {
-    console.log('problemmmmmmmmmmmmmmmm:', error);
+    console.log("Error while trying to subscriber:", error);
   }
- 
 };
 
 setupPubSub();
