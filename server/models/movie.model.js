@@ -18,13 +18,16 @@ const movieSchema = mongoose.Schema({
         type: String, 
         required: true 
     }, 
+    actors: {
+        type: [String],
+    },
     releaseDate: { 
         type: Date, 
         required: true 
     }, 
     rating: { 
-        type: String, 
-        required: true 
+        type: Number, 
+        default: 3 
     }, 
     posterUrl: String, 
     createdAt: { 
