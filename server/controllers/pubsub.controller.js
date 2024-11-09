@@ -1,24 +1,15 @@
-import { publisher } from "../pubsub/index.js";
+import Client from '../models/client.model.js';
+import sendNotification from '../utils/emailServices/email.service.js';
 
-export const newMovieUpdate = async (req, res) => {
-  console.log("POST /actionGenre received:", req.body);
-  const { movieName, rating } = req.body;
-
-  if (!movieName || !rating) {
-    return res.status(400).send("Missing movieName or rating in request body");
-  }
-
-  const message = JSON.stringify({ movieName, rating });
-  console.log("Message parsed:", message);
-  //connect Publisher 
-  await publisher.connect();
-  publisher.on('connect', () => console.log("Publisher connected"));
-  // Publish message to 'actionsMovies' channel
+export const handleNewMovieUpdate = async (message) => {
   try {
-    await publisher.publish("newMovieUpdate", 'new Movie update from here');
-    res.status(200).send(`New action movies update sent`);
-  } catch (err) {
-    console.error("Error publishing message:", err);
-    return res.status(500).send("Error publishing message");
+    const subscribedClients = []; //await Client.find({ channel: "newMovieUpdate" });
+    // Notify each subscribed client
+    //subscribedClients.forEach((client) => {
+      sendNotification('', message); // Actual notification logic
+    //});
+  } catch (error) {
+    console.error("Error handling new movie notification:", error);
   }
+  
 };

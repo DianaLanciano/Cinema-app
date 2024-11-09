@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-const movieSchema = mongoose.Schema({
+const movieSchema = mongoose.Schema(
+    {
     title: { 
         type: String, 
         required: true, 
@@ -30,9 +31,6 @@ const movieSchema = mongoose.Schema({
         default: 3 
     }, 
     posterUrl: String, 
-    createdAt: { 
-        type: Date, 
-        default: Date.now },
     ticketPrice: { 
         type: Number, 
         required: true 
@@ -42,9 +40,9 @@ const movieSchema = mongoose.Schema({
         default: true,
         require: true
     }
-
-    
-});
+},
+{ timestamps: true }
+);
 
 const Movie = mongoose.model("Movie", movieSchema);
 

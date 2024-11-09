@@ -18,6 +18,9 @@ const clientSchema = mongoose.Schema({
   Phone: {
     type: String,
   },
+  channel: {
+    type: [String]
+  }
 });
 
 const Client = mongoose.model("Client", clientSchema);

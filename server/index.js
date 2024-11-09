@@ -7,7 +7,7 @@ import helmet from "helmet";
 import { subscriber, connectRedis } from "./pubsub/index.js";
 import moviesRoutes from "./routes/movie.routes.js";
 import showTimeRoutes from "./routes/showTime.routes.js";
-import pubsubRoutes from "./routes/pubsub.routes.js";
+import { handleNewMovieUpdate } from "./controllers/pubsub.controller.js";
 /******************************************* CONFIGURATION *******************************************/
 dotenv.config();
 const app = express();
@@ -21,26 +21,15 @@ app.use(cors()); // allows requests from all origins
 /******************************************* ROUTES *******************************************/
 app.use("/api/movies", moviesRoutes);
 app.use("api/showTime", showTimeRoutes);
-app.use("/pubsub/update", pubsubRoutes);
 
 /******************************************* PUB/SUB EVENTS *******************************************/
 const setupPubSub = async () => {
   await connectRedis(); // Ensure Redis is connected
   // Subscribe to 'newMovieUpdate' channel
-  await subscriber.subscribe("newMovieUpdate", (message) => {
-    console.log("message in index", message);
+  await subscriber.subscribe("newMovieUpdate", message => {
+    handleNewMovieUpdate(message)
   });
-  console.log("newMovieUpdate subscribed");
-  // catch messages from channels
-  try {
-    await subscriber.on("message", (channel, message) => {
-      console.log(`Received message on ${channel}:`, message);
-    });
-  } catch (error) {
-    console.log("Error while trying to subscriber:", error);
-  }
 };
-
 setupPubSub();
 /******************************************* DB SETUP & SERVER CONNECTION *******************************************/
 const PORT = process.env.PORT || 5001;
