@@ -7,6 +7,7 @@ import helmet from "helmet";
 import { subscriber, connectRedis } from "./pubsub/index.js";
 import moviesRoutes from "./routes/movie.routes.js";
 import showTimeRoutes from "./routes/showTime.routes.js";
+import subscribersRoutes from "./routes/subscriber.routes.js";
 import { handleNewMovieUpdate } from "./controllers/pubsub.controller.js";
 /******************************************* CONFIGURATION *******************************************/
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(cors()); // allows requests from all origins
 /******************************************* ROUTES *******************************************/
 app.use("/api/movies", moviesRoutes);
 app.use("api/showTime", showTimeRoutes);
+app.use("/api/subscribers", subscribersRoutes);
 
 /******************************************* PUB/SUB EVENTS *******************************************/
 const setupPubSub = async () => {

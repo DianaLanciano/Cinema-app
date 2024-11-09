@@ -1,23 +1,24 @@
 import nodemailer from 'nodemailer';
 
 const sendNotification = async (email, newMovie) => {
-    const email1 = "isakovdiana1@gmail.com";
+
+  // Parse newMovie back to an object
+  const movieData = JSON.parse(newMovie);
+
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
-        // port: 587,
-        // secure: false, // true for port 465, false for other ports
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
         },
-      });
-
+      });  
+      
       const mailOptions = await transporter.sendMail({
-        from: '"Maddison Foo Koch 👻" <funcinema10@gmail.com>', // sender address
-        to: email1, // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>", // html body
+        from: '"New Movie Update 👻" <funcinema10@gmail.com>', // sender address
+        to: email, // receivers
+        subject: `New Movie Released: ${movieData.title}`, // Subject line
+        text: `A new movie has been released!\n\n${newMovie.title}`, // Plain text body, // plain text body
+        //, // HTML body with movie details in a structured format
       });
 
       console.log("Message sent: ", mailOptions.messageId);

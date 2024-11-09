@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const clientSchema = mongoose.Schema({
+const subscriberSchema = mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -23,6 +23,6 @@ const clientSchema = mongoose.Schema({
   }
 });
 
-const Client = mongoose.model("Client", clientSchema);
+const Subscriber = mongoose.model("Subscriber", subscriberSchema);
 
-export default Client;
+export default Subscriber;
