@@ -1,45 +1,30 @@
-import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import useGetMovies from '../hooks/useGetMovies';
+
 
 function Carousel() {
+
+  const navigate = useNavigate();
+  const { movies } = useGetMovies();
+
+  function handleClick(movieId) {
+    navigate(`/movie/${movieId}`);
+  }
+
   return (
     <div className="carousel rounded-box mt-16">
-    <div className="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
-        alt="Burger" />
+      {movies.map((movie) => (
+        <div key={movie._id} className="carousel-item">
+          <img
+            src="https://m.media-amazon.com/images/I/81DQPNk94RL._AC_UF894,1000_QL80_.jpg"
+            alt="Image"
+            onClick={() => handleClick(movie._id)} // Pass the movie ID as an argument
+            className="w-72 h-100 object-cover"
+          />
+        </div>
+      ))}
     </div>
-    <div className="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
-        alt="Burger" />
-    </div>
-    <div className="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp"
-        alt="Burger" />
-    </div>
-    <div className="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp"
-        alt="Burger" />
-    </div>
-    <div className="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp"
-        alt="Burger" />
-    </div>
-    <div className="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp"
-        alt="Burger" />
-    </div>
-    <div className="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"
-        alt="Burger" />
-    </div>
-  </div>
-  )
+  );
 }
 
 export default Carousel;
