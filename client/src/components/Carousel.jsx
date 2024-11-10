@@ -7,8 +7,8 @@ function Carousel() {
   const navigate = useNavigate();
   const { movies } = useGetMovies();
 
-  function handleClick(movieId) {
-    navigate(`/movie/${movieId}`);
+  function handleClick(movie) {
+    navigate(`/movie/${movie._id}`);
   }
 
   return (
@@ -18,7 +18,7 @@ function Carousel() {
           <img
             src="https://m.media-amazon.com/images/I/81DQPNk94RL._AC_UF894,1000_QL80_.jpg"
             alt="Image"
-            onClick={() => handleClick(movie._id)} // Pass the movie ID as an argument
+            onClick={() => handleClick(movie)} // Pass the movie ID as an argument
             className="w-72 h-100 object-cover"
           />
         </div>
