@@ -7,6 +7,7 @@ import Movies from "./pages/movies/Movies";
 import Navbar from "./components/Navbar";
 import Cart from "./pages/cart/Cart";
 import UpdatesSignUp from "./pages/signup/UpdatesSignUp";
+import Login from "./pages/login/Login";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/movies" element={<Movies />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/updates" element={<UpdatesSignUp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Toaster />
       </div>
