@@ -1,13 +1,7 @@
-import {
-  ShoppingCart,
-  UserPlus,
-  LogIn,
-  LogOut,
-  Lock,
-  AlignJustify,
-} from "lucide-react";
+import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import SearchInput from "./SearchInput";
+import Dropdown from "./Dropdown";
 
 const Navbar = () => {
   const user = true;
@@ -17,14 +11,8 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-rose-300">
       <div className="container mx-auto px-4 py-3">
         <div className="flex flex-wrap justify-between items-center">
-			<SearchInput />
-          <Link
-            to="/"
-            className="text-2xl font-bold text-rose-400 items-center space-x-2 flex"
-          >
-            CinemaFun
-          </Link>
-
+          <SearchInput />
+          <Link to="/" className="text-2xl font-bold text-rose-400 items-center space-x-2 flex">CinemaFun</Link>
           <nav className="flex flex-wrap items-center gap-4">
             {user && (
               <Link
@@ -71,46 +59,7 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <div className="dropdown dropdown-hover ml-2">
-              <div tabIndex={0} role="button" className="btn m-1">
-                <AlignJustify />
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content dropdown-left text-rose-400 menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-              >
-                <li>
-                  <a>
-                    <Link
-                      to={"/"}
-                      className="text-red-300 hover:text-rose-400 transition duration-300 ease-in-out"
-                    >
-                      Home
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <Link
-                      to={"/"}
-                      className="text-red-300 hover:text-rose-400 transition duration-300 ease-in-out"
-                    >
-                      Movies
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <Link
-                      to={"/"}
-                      className="text-red-300 hover:text-rose-400 transition duration-300 ease-in-out"
-                    >
-                      Get Updates!
-                    </Link>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <Dropdown />
           </nav>
         </div>
       </div>
