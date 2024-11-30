@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Cart from "./pages/cart/Cart";
 import UpdatesSignUp from "./pages/signup/UpdatesSignUp";
 import Login from "./pages/login/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/updates" element={<UpdatesSignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Toaster />
       </div>
