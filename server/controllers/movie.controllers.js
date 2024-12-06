@@ -15,14 +15,16 @@ export const getMovies = async (req, res) => {
     if (!searchCriteria) {
       movies = await Movie.find();
     } else {
-      movies = await Movie.find({
-        // Filter by genre
-        genre: searchCriteria.genre,
-        // Filter by rating
-        rating: searchCriteria.rating,
-        // Filter by actors (at least one of the actors in searchCriteria should be present)
-        actors: { $in: searchCriteria.actors },
-        // Additional condition to only return movies that are visible
+      const movies = await Movie.find({
+        $or: [
+          // Condition 1: Filter by genre
+          { genre: searchCriteria.genre },
+          // Condition 2: Filter by rating
+          { rating: searchCriteria.rating },
+          // Condition 3: Filter by actors (at least one of the actors in searchCriteria should be present)
+          { actors: { $in: searchCriteria.actors } },
+        ],
+        // Additional condition: Only return movies that are visible
         isVisible: true,
       });
     }
