@@ -21,7 +21,7 @@ const genres = [
 ];
 
 
-function Carousel() {
+function GenresDisplay() {
   return (
     <div>
     	<div className='relative min-h-screen text-white overflow-hidden'>
@@ -46,4 +46,4 @@ function Carousel() {
   );
 }
 
-export default Carousel;
+export default GenresDisplay;

@@ -1,10 +1,10 @@
-import Carousel from '../../components/Carousel';
+import GenresDisplay from '../../components/GenresDisplay';
 import Booking from '../../components/Booking';
 
 function Home() {
   return (
     <div>
-      <Carousel />
+      <GenresDisplay />
       <Booking />
     </div>
   )

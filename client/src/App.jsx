@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import useAuthStore from "./store/useAuthStore";
 import Home from "./pages/home/Home";
 import Movie from "./pages/movie/Movie";
 import { Toaster } from "react-hot-toast";
@@ -11,6 +12,9 @@ import Login from "./pages/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
+
+  const isAdmin = useAuthStore(state => state.isAdminConnected());
+  
   return (
     <div className='min-h-screen bg-gray-900 text-white relative overflow-hidden'>
 			{/* Background gradient */}
@@ -30,7 +34,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/updates" element={<UpdatesSignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/dashboard" element={isAdmin ? <Dashboard /> : <Dashboard />}  />
       </Routes>
       <Toaster />
       </div>
