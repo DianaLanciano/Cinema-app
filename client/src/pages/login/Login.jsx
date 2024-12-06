@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LogIn, Mail, Lock, Loader } from "lucide-react";
@@ -15,12 +15,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(username, password);
-    if (authUser) {
-        setLoggedUser(authUser);
-        navigate("/dashboard");
-    }
-        
   };
+
+  useEffect(() => {
+    if (authUser) {
+      setLoggedUser(authUser); // Update Zustand store
+      navigate("/dashboard"); // Redirect to dashboard
+    }
+  }, [authUser, navigate, setLoggedUser]);
 
   return (
     <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">

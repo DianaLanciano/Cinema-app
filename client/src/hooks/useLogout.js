@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
 
 const useLogout = () => {
 
     const [loading, setLoading] = useState(false);
-    const { adminLogout } = useAuthStore();
+    const navigate = useNavigate();
+     // Get the adminLogout function from Zustand store
+     const adminLogout = useAuthStore((state) => state.adminLogout);
 
     const logout = async () => {
         setLoading(true);
@@ -19,7 +22,8 @@ const useLogout = () => {
             if(data.error) throw new Error(data.error);
 
             localStorage.removeItem("cinema-admin");
-            adminLogout();
+            adminLogout(); // Clear admin state
+            navigate("/"); // Redirect to the root page
 
         } catch (error) {
             toast.error(error.message);

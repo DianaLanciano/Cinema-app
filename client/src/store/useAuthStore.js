@@ -12,12 +12,14 @@ const useAuthStore = create((set, get) => ({
         isLoggedIn: true,
       });
   },
-  adminLogout: () => set({ userAdmin: null, isLoggedIn: false }),
+  adminLogout: () => {
+    set({ userAdmin: null, isLoggedIn: false });
+},
 
   // Derived state (utility function)
   isAdminConnected: () => {
-    const user = get().user;
-    return user !== null; // Returns true if an admin is logged in
+    const userAdmin = get().userAdmin; // Correct reference
+    return userAdmin !== null; // Returns true if an admin is logged in
   },
 }));
 

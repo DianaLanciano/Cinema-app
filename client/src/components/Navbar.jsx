@@ -7,6 +7,7 @@ import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
  
+  // const { isAdminConnected } = useAuthStore();
   const isAdminConnected = useAuthStore((state) => state.isAdminConnected());
   const user = false;
   const { logout } = useLogout();
