@@ -7,4 +7,6 @@ router.get("/status/:showtimeId", getSeatStatus);
 
 router.post("/lock", handleSeatLock);
 
+//check seat routes
+
 
