@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import { subscriber, connectRedis } from "./pubsub/index.js";
+import { startSeatCleanup } from './middleware/seatLockUnlock.js';
 import moviesRoutes from "./routes/movie.routes.js";
 import showTimeRoutes from "./routes/showTime.routes.js";
 import subscribersRoutes from "./routes/subscriber.routes.js";
@@ -35,6 +36,8 @@ const setupPubSub = async () => {
   });
 };
 setupPubSub();
+/******************************************* SEATS EVENTS *******************************************/
+startSeatCleanup();
 /******************************************* DB SETUP & SERVER CONNECTION *******************************************/
 const PORT = process.env.PORT || 5001;
 // Server will run if connection to MongoDB is successful

@@ -10,10 +10,18 @@ const seatSchema = mongoose.Schema({
         type: String, 
         required: true 
     }, 
-    isBooked: { 
-        type: Boolean, 
-        default: false 
+    status: { 
+        type: String, 
+        enum: ['available', 'locked', 'booked'],
+        default: 'available'
     },
+    lockedAt: {
+        type: Date
+    },
+    lockedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 const Seat = mongoose.model("Seat", seatSchema);

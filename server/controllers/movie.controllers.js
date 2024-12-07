@@ -1,5 +1,6 @@
 import Movie from "../models/movie.model.js";
 import { publisher } from "../pubsub/index.js";
+// import { body, validationResult } from 'express-validator'; -- implement
 
 export const getMovies = async (req, res) => {
   const { searchCriteria } = req.body;
