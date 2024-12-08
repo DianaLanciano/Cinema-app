@@ -1,13 +1,18 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { PlusCircle, Loader } from "lucide-react";
+import useMovieStore from "../store/useMovieStore.js";
 
 const CreateMovieForm = () => {
+  const [loading, setLoading] = useState(false);
+  const createMovie = useMovieStore((state) => state.createMovie);
   const [newMovie, setNewMovie] = useState({
     title: "",
     genre: "",
     runtime: "",
     synopsis: "",
+    posterUrl: "",
     actors: [],
     releaseDate: "",
     rating: "",
@@ -15,12 +20,60 @@ const CreateMovieForm = () => {
     isVisible: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(newMovie);
+    setLoading(true);
+    try {
+      // Validate actors array
+      const validActors = newMovie.actors.filter(
+        (actor) => actor.trim() !== ""
+      );
+      if (validActors.length === 0) {
+        toast.error("Please add at least one actor");
+        return;
+      }
+
+      // Convert and validate runtime
+      const runtimeNumber = parseInt(newMovie.runtime);
+      if (isNaN(runtimeNumber) || runtimeNumber <= 0) {
+        toast.error("Please enter a valid runtime");
+        return;
+      }
+
+      // Prepare movie data
+      const movieToSubmit = {
+        ...newMovie,
+        actors: validActors,
+        runtime: runtimeNumber,
+        ticketPrice: Number(newMovie.ticketPrice),
+        rating: Number(newMovie.rating),
+        isVisible: newMovie.isVisible === "true",
+      };
+
+      // Submit to store
+      await createMovie(movieToSubmit);
+
+      // Reset form on success
+      setNewMovie({
+        title: "",
+        genre: "",
+        runtime: "",
+        synopsis: "",
+        posterUrl: "",
+        actors: [],
+        releaseDate: "",
+        rating: "",
+        ticketPrice: "",
+        isVisible: "",
+      });
+    } catch (error) {
+      // Error is already handled by the store
+      console.error("Form submission error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const loading = false;
   return (
     <motion.div
       className="bg-gray-800 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto"
@@ -109,6 +162,29 @@ const CreateMovieForm = () => {
           />
         </div>
 
+        <div className="movie-poster-container">
+          <label
+            htmlFor="posterUrl"
+            className="block text-sm font-medium text-gray-300"
+          >
+            Poster URL
+          </label>
+          <input
+            type="url"
+            id="posterUrl"
+            name="posterUrl"
+            value={newMovie.posterUrl}
+            onChange={(e) =>
+              setNewMovie({ ...newMovie, posterUrl: e.target.value })
+            }
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2
+     px-3 text-white focus:outline-none focus:ring-2
+    focus:ring-emerald-500 focus:border-emerald-500"
+            placeholder="Enter movie poster URL"
+            required
+          />
+        </div>
+
         <div className="movie-actors-container">
           <label
             htmlFor="actors"
@@ -175,6 +251,30 @@ const CreateMovieForm = () => {
             className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2
      px-3 text-white focus:outline-none focus:ring-2
     focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+
+        <div className="movie-runtime-container">
+          <label
+            htmlFor="runtime"
+            className="block text-sm font-medium text-gray-300"
+          >
+            Runtime (minutes)
+          </label>
+          <input
+            type="number"
+            id="runtime"
+            name="runtime"
+            value={newMovie.runtime}
+            onChange={(e) =>
+              setNewMovie({ ...newMovie, runtime: e.target.value })
+            }
+            min="1"
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2
+    px-3 text-white focus:outline-none focus:ring-2
+    focus:ring-emerald-500 focus:border-emerald-500"
+            placeholder="Enter movie duration in minutes"
             required
           />
         </div>

@@ -10,6 +10,8 @@ import Cart from "./pages/cart/Cart";
 import UpdatesSignUp from "./pages/signup/UpdatesSignUp";
 import Login from "./pages/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
+import EditMovie from "./components/EditMovie";
+
 
 function App() {
 
@@ -35,6 +37,7 @@ function App() {
         <Route path="/updates" element={<UpdatesSignUp />} />
         <Route path="/login" element={<Login />} />
          <Route path="/dashboard" element={isAdmin ? <Dashboard /> : <Dashboard />}  />
+         <Route path="/movie/edit/:movieId" element={<EditMovie />} />
       </Routes>
       <Toaster />
       </div>

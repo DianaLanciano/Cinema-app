@@ -10,10 +10,15 @@ router.get("/search", getSearchResult);
 
 router.get("/:movieId", getMovie);
 
-router.post("/addMovie", verifyUserLoggedIn, addMovie);
+// router.post("/addMovie", verifyUserLoggedIn, addMovie);
 
-router.put("/:movieId", verifyUserLoggedIn, updateMovie);
+router.post("/addMovie", addMovie);
 
+// router.put("/:movieId", verifyUserLoggedIn, updateMovie);
+
+router.put("/:movieId", updateMovie);
+
+// router.delete("/:movieId", verifyUserLoggedIn, deleteMovie);
 router.delete("/:movieId", verifyUserLoggedIn, deleteMovie);
 
 export default router;

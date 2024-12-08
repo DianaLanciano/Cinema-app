@@ -1,17 +1,6 @@
-// middleware/seatLock.middleware.js
+import Seat from '../models/seat.model.js';
+
 const LOCK_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
-
-seatSchema.index({ status: 1, lockedAt: 1 }) //  The index creates a separate sorted list like this:
-//it will iterate 
-// status    | lockedAt           | document_id
-// -----------------------------------------
-// available | null               | id1
-// available | null               | id2
-// locked    | 2024-12-07T09:00  | id3   // MongoDB jumps directly here!
-// locked    | 2024-12-07T10:00  | id4
-// pending   | ***********       | id5  // MongoDB stops here!
-
-
 
 const unlockExpiredSeats = async () => {
     const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);

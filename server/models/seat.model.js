@@ -24,6 +24,17 @@ const seatSchema = mongoose.Schema({
     }
 });
 
-const Seat = mongoose.model("Seat", seatSchema);
+// Add index here, before creating the model
+seatSchema.index({ status: 1, lockedAt: 1 });//  The index creates a separate sorted list like this:
+//it will iterate 
+// status    | lockedAt           | document_id
+// -----------------------------------------
+// available | null               | id1
+// available | null               | id2
+// locked    | 2024-12-07T09:00  | id3   // MongoDB jumps directly here!
+// locked    | 2024-12-07T10:00  | id4
+// pending   | ***********       | id5  // MongoDB stops here!
 
+
+const Seat = mongoose.model("Seat", seatSchema);
 export default Seat;

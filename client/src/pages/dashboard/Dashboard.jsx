@@ -1,4 +1,4 @@
-import { BarChart, PlusCircle, ShoppingBasket } from "lucide-react";
+import { BarChart, PlusCircle, List } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -9,7 +9,7 @@ import AnalyticsTab from "../../components/AnalyticsTab";
 
 const tabs = [
 	{ id: "create", label: "Create Movie", icon: PlusCircle },
-	{ id: "movies", label: "Movie", icon: ShoppingBasket },
+	{ id: "movies", label: "Movies", icon: List },
 	{ id: "analytics", label: "Analytics", icon: BarChart },
 ];
 

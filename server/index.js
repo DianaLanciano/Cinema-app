@@ -5,7 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import { subscriber, connectRedis } from "./pubsub/index.js";
-import { startSeatCleanup } from './middleware/seatLockUnlock.js';
+import { startSeatCleanup } from './middleware/seatLock.js';
 import moviesRoutes from "./routes/movie.routes.js";
 import showTimeRoutes from "./routes/showTime.routes.js";
 import subscribersRoutes from "./routes/subscriber.routes.js";
