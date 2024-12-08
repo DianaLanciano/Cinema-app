@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get("/", getMovies);
 
+router.post("/", getMovies);
+
 router.get("/search", getSearchResult);
 
 router.get("/:movieId", getMovie);

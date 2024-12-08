@@ -1,11 +1,9 @@
-import { Link } from "react-router-dom";
 
-const GenreItem = ({ genre }) => {
+const GenreItem = ({ genre, onClick }) => {
   return (
     <div>
       <div className='relative overflow-hidden h-80 w-full rounded-lg group'>
-			<Link to={"/category" + genre.href}>
-				<div className='w-full h-full cursor-pointer'>
+				<div className='w-full h-full cursor-pointer' onClick={() => onClick(genre.name)} >
 					<div className='absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-50 z-10' />
 					<img
 						src={genre.imageUrl}
@@ -18,7 +16,6 @@ const GenreItem = ({ genre }) => {
 						<p className='text-gray-200 text-sm'>Explore {genre.name}</p>
 					</div>
 				</div>
-			</Link>
 		</div>
     </div>
   )

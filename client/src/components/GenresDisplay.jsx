@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import useGetMovies from '../hooks/useGetMovies';
 import GenreItem from './GenreItem';
 import adventureImage from "../assets/genre/Adventure.jpg";
 import documentaryImage from "../assets/genre/Documentary.jpg";
@@ -11,17 +10,24 @@ import crimeImage from "../assets/genre/Crime.jpg";
 
 
 const genres = [
-	{ href: "Comedy", name: "Comedy", imageUrl: comedyImage },
-	{ href: "Drama", name: "Drama", imageUrl: dramaImage},
-	{ href: "Action", name: "Action", imageUrl: actionImage },
-	{ href: "Adventure", name: "Adventure", imageUrl: adventureImage },
-	{ href: "Fantasy", name: "Fantasy", imageUrl: fantasyImage },
-	{ href: "Crime", name: "Crime", imageUrl:  crimeImage},
-	{ href: "Documentary", name: "Documentary", imageUrl:  documentaryImage},
+	{ name: "Comedy", imageUrl: comedyImage },
+	{ name: "Drama", imageUrl: dramaImage},
+	{ name: "Action", imageUrl: actionImage },
+	{ name: "Adventure", imageUrl: adventureImage },
+	{ name: "Fantasy", imageUrl: fantasyImage },
+	{ name: "Crime", imageUrl:  crimeImage},
+	{ name: "Documentary", imageUrl:  documentaryImage},
 ];
 
 
 function GenresDisplay() {
+
+	const navigate = useNavigate();
+
+	const handleClick = (genre) => {
+		navigate(`/movies/${genre}`);
+	};
+
   return (
     <div>
     	<div className='relative min-h-screen text-white overflow-hidden'>
@@ -30,16 +36,16 @@ function GenresDisplay() {
 					Explore Our Movies
 				</h1>
 				<p className='text-center text-xl text-gray-300 mb-12'>
-					Discover the latest trends in eco-friendly fashion
+					Discover the latest movies
 				</p>
 
-				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+				<div 
+				className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'
+				>
 					{genres.map((genre) => (
-						<GenreItem genre={genre} key={genre.name} />
+						<GenreItem genre={genre} key={genre.name} onClick={handleClick} />
 					))}
 				</div>
-
-				{/* {!isLoading && products.length > 0 && <FeaturedProducts featuredProducts={products} />} */}
 			</div>
 		</div>
     </div>

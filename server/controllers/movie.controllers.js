@@ -4,6 +4,8 @@ import { publisher } from "../pubsub/index.js";
 
 export const getMovies = async (req, res) => {
   const { searchCriteria } = req.body;
+  console.log('searchCriteria', searchCriteria);
+  
   let movies = [];
   /*
             searchCriteria = {
@@ -16,7 +18,7 @@ export const getMovies = async (req, res) => {
     if (!searchCriteria) {
       movies = await Movie.find();
     } else {
-      const movies = await Movie.find({
+     movies = await Movie.find({
         $or: [
           // Condition 1: Filter by genre
           { genre: searchCriteria.genre },

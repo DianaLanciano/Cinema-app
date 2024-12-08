@@ -81,8 +81,6 @@ const useMovieStore = create((set, get) => ({
         ),
         loading: false
       }));
-
-      toast.success("Movie updated successfully!");
       return data;
       
     } catch (error) {
@@ -128,11 +126,17 @@ const useMovieStore = create((set, get) => ({
   searchMovies: async (searchCriteria) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch("http://localhost:8000/api/movies", {
+      console.log('Searching with criteria:', searchCriteria); // Add debug log
+      
+      const response = await fetch("http://localhost:8000/api/movies", {  
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify({ searchCriteria })
       });
+      
       
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);

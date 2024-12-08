@@ -1,16 +1,32 @@
-// components/MoviesList.jsx
 import { useEffect } from 'react';
 import useMovieStore from '../store/useMovieStore';
 import MovieCard from '../components/MovieItem';
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const MoviesList = () => {
-  const { movies, fetchMovies, loading, deleteMovie } = useMovieStore();
+  const { movies, fetchMovies, loading, deleteMovie, searchMovies } = useMovieStore();
+  const { genre } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+    const fetchData = async () => {
+      try {
+        if (genre) {
+          console.log('Fetching movies for genre:', genre); // Debug log
+          const searchCriteria = {
+            genre
+          };
+          await searchMovies(searchCriteria);
+        } else {
+          await fetchMovies();
+        }
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      }
+    };
+  
+    fetchData();
+  }, [genre, searchMovies, fetchMovies]);
 
   const handleDelete = async (movieId) => {
     try {
@@ -24,10 +40,6 @@ const MoviesList = () => {
   const handleEdit = (movie) => {
     navigate(`/movie/edit/${movie._id}`);
   };
-
-  if (loading) {
-    return <div className="text-center text-white">Loading movies...</div>;
-  }
 
   if (loading) {
     return <div className="text-center text-white">Loading movies...</div>;
