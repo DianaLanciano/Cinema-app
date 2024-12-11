@@ -37,7 +37,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/updates" element={<UpdatesSignUp />} />
         <Route path="/login" element={<Login />} />
-         <Route path="/dashboard" element={isAdmin ? <Dashboard /> : <Dashboard />}  />
+         <Route path="/dashboard" element={isAdmin ? <Dashboard /> : <Home />}  />
          <Route path="/movie/edit/:movieId" element={<EditMovie />} />
          <Route path="/movies/:genre" element={<MoviesList />} />
       </Routes>
