@@ -6,64 +6,85 @@ import useAuthStore from '../store/useAuthStore';
 import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
- 
-  // const { isAdminConnected } = useAuthStore();
   const isAdminConnected = useAuthStore((state) => state.isAdminConnected());
   const user = false;
   const { logout } = useLogout();
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-rose-300">
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex flex-wrap justify-between items-center">
-          <SearchInput />
-          <Link to="/" className="text-2xl font-bold text-rose-400 items-center space-x-2 flex">CinemaFun</Link>
-          <nav className="flex flex-wrap items-center gap-4">
+    <header className="fixed top-0 left-0 w-full backdrop-blur-md z-40 transition-all duration-300">
+      {/* Glass effect background */}
+      <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm"></div>
+      
+      {/* Gradient border bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-rose-500/50 to-transparent"></div>
+
+      <div className="relative container mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link 
+            to="/" 
+            className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-purple-500 hover:from-rose-500 hover:to-purple-600 transition-all duration-300"
+          >
+            CinemaFun
+          </Link>
+
+          {/* Search */}
+          <div className="flex-1 max-w-md mx-8">
+            <SearchInput />
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex items-center space-x-6">
             {user && (
               <Link
-                to={"/cart"}
-                className="text-gray-300 hover:text-rose-400 transition duration-300 ease-in-out"
+                to="/cart"
+                className="relative group"
               >
-                <ShoppingCart
-                  className="inline-block mr-1 group-hover:text-rose-400"
-                  size={20}
-                />
-                <span className="hidden sm:inline">3</span>
+                <ShoppingCart className="w-5 h-5 text-gray-400 group-hover:text-rose-400 transition-colors duration-300" />
+                <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  3
+                </span>
               </Link>
             )}
-            {isAdminConnected && (
-              <Link
-                className="bg-rose-700 hover:bg-rose-600 text-white px-3 py-1 rounded-md font-medium
-			 transition duration-300 ease-in-out flex items-center"
-                to={"/dashboard"}
-              >
-                <Lock className="inline-block mr-1" size={18} />
-                <span className="hidden sm:inline">Dashboard</span>
-              </Link>
-            )}
+
             {isAdminConnected ? (
-              <button onClick={logout} className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out">
-                <LogOut size={18} />
-                <span className="hidden sm:inline ml-2">Log Out</span>
-              </button>
-            ) : (
-              <>
+              <div className="flex items-center space-x-4">
                 <Link
-                  to={"/"}
-                  className="bg-rose-600 hover:bg-rose-700 text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out"
+                  to="/dashboard"
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white flex items-center space-x-2 transition-all duration-300"
                 >
-                  <UserPlus className="mr-2" size={18} />
-                  Sign Up For Updates!
+                  <Lock className="w-4 h-4" />
+                  <span>Dashboard</span>
                 </Link>
-               {!isAdminConnected && <Link
-                  to={"/login"}
-                  className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out"
+
+                <button 
+                  onClick={logout}
+                  className="px-4 py-2 rounded-full border border-gray-700 hover:border-gray-600 text-gray-300 hover:text-white flex items-center space-x-2 transition-all duration-300"
                 >
-                  <LogIn className="mr-2" size={18} />
-                  Login (admin only)
-                </Link>}
-              </>
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link
+                  to="/"
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white flex items-center space-x-2 transition-all duration-300"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  <span>Updates</span>
+                </Link>
+
+                <Link
+                  to="/login"
+                  className="px-4 py-2 rounded-full border border-gray-700 hover:border-gray-600 text-gray-300 hover:text-white flex items-center space-x-2 transition-all duration-300"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>Admin</span>
+                </Link>
+              </div>
             )}
+
             <Dropdown />
           </nav>
         </div>
@@ -71,4 +92,5 @@ const Navbar = () => {
     </header>
   );
 };
+
 export default Navbar;

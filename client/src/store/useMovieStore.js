@@ -123,7 +123,7 @@ const useMovieStore = create((set, get) => ({
   },
 
   // Search movies with criteria
-  searchMovies: async (searchCriteria) => {
+  searchMoviesByGenre: async (searchCriteria) => {
     set({ loading: true, error: null });
     try {
       console.log('Searching with criteria:', searchCriteria); // Add debug log
@@ -153,6 +153,39 @@ const useMovieStore = create((set, get) => ({
       throw error;
     }
   },
+
+  // Search from search input
+  searchInput: async (searchTerm) => {
+    set({ loading: true, error: null });
+    try {
+      console.log('Searching with criteria:', searchTerm); // Add debug log
+      
+      const response = await fetch("http://localhost:8000/api/movies/search", {  
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ searchTerm })
+      });
+      
+      
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+
+      set({ 
+        movies: data,
+        loading: false 
+      });
+
+      return data;
+    } catch (error) {
+      set({ error: error.message, loading: false });
+      toast.error(error.message);
+      throw error;
+    }
+  },
+
 
 
 }));

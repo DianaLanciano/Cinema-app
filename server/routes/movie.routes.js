@@ -8,7 +8,7 @@ router.get("/", getMovies);
 
 router.post("/", getMovies);
 
-router.get("/search", getSearchResult);
+router.post("/search", getSearchResult);
 
 router.get("/:movieId", getMovie);
 

@@ -14,7 +14,7 @@ const useAuthStore = create((set, get) => ({
   },
   adminLogout: () => {
     set({ userAdmin: null, isLoggedIn: false });
-},
+  },
 
   // Derived state (utility function)
   isAdminConnected: () => {
