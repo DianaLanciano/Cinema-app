@@ -13,6 +13,7 @@ const useLogin = () => {
 			const res = await fetch("http://localhost:8000/api/auth/login", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
+				credentials: 'include',  // Important!
 				body: JSON.stringify({ username, password }),
 			});
 

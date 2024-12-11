@@ -1,4 +1,3 @@
-// stores/useMovieStore.js
 import { create } from "zustand";
 import toast from "react-hot-toast";
 
@@ -15,6 +14,7 @@ const useMovieStore = create((set, get) => ({
       const response = await fetch("http://localhost:8000/api/movies/addMovie", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',
         body: JSON.stringify(movieData)
       });
 
@@ -66,6 +66,7 @@ const useMovieStore = create((set, get) => ({
       const response = await fetch(`http://localhost:8000/api/movies/${movieId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',  // Important!
         body: JSON.stringify(updatedData)
       });
 
@@ -94,6 +95,7 @@ const useMovieStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const response = await fetch(`http://localhost:8000/api/movies/${movieId}`, {
+        credentials: 'include',  // Important!
         method: "DELETE",
       });
 
