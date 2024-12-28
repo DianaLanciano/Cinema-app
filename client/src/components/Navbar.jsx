@@ -68,7 +68,7 @@ const Navbar = () => {
             ) : (
               <div className="flex items-center space-x-4">
                 <Link
-                  to="/"
+                  to="/updates"
                   className="px-4 py-2 rounded-full bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white flex items-center space-x-2 transition-all duration-300"
                 >
                   <UserPlus className="w-4 h-4" />

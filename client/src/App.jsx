@@ -40,6 +40,7 @@ function App() {
          <Route path="/dashboard" element={isAdmin ? <Dashboard /> : <Home />}  />
          <Route path="/movie/edit/:movieId" element={<EditMovie />} />
          <Route path="/movies/:genre" element={<MoviesList />} />
+         <Route path="/updates" element={<UpdatesSignUp />} />
       </Routes>
       <Toaster />
       </div>

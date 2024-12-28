@@ -4,16 +4,26 @@ import MovieCard from '../components/MovieItem';
 import { useNavigate, useParams } from "react-router-dom";
 
 const MoviesList = () => {
-  const { movies, deleteMovie, loading, fetchMovies } = useMovieStore();
+  const { 
+    movies, 
+    searchResults, 
+    currentGenre, 
+    deleteMovie, 
+    loading, 
+    fetchMovies 
+  } = useMovieStore();
+ 
+
   const navigate = useNavigate();
   const { genre } = useParams(); // Get genre from URL if it exists
 
-  useEffect(() => {
-    // Only fetch all movies if we're not showing genre results
-    if (!genre) {
+useEffect(() => {
+    if (!genre && !searchResults.length) {
       fetchMovies();
     }
-  }, [fetchMovies, genre]);
+  }, [fetchMovies, genre, searchResults.length]);
+
+  const displayMovies = searchResults.length > 0 ? searchResults : movies;
 
   const handleDelete = async (movieId) => {
     try {
@@ -34,12 +44,27 @@ const MoviesList = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-        {movies.map((movie) => (
-          <MovieCard key={movie._id} movie={movie} onDelete={handleDelete} onEdit={handleEdit} />
-        ))}
-      </div>
+    {currentGenre && !searchResults.length && (
+      <h2 className="text-2xl font-bold text-rose-400 mb-6">
+        {currentGenre} Movies
+      </h2>
+    )}
+    {searchResults.length > 0 && (
+      <h2 className="text-2xl font-bold text-rose-400 mb-6">
+        Search Results
+      </h2>
+    )}
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+      {displayMovies.map((movie) => (
+        <MovieCard 
+          key={movie._id} 
+          movie={movie} 
+          onDelete={handleDelete} 
+          onEdit={handleEdit} 
+        />
+      ))}
     </div>
+  </div>
   );
 };
 

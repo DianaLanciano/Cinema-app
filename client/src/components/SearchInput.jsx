@@ -4,28 +4,26 @@ import { useNavigate } from 'react-router-dom';
 
 const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { searchInput, fetchMovies } = useMovieStore();
+  const { searchInput, clearSearch } = useMovieStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleSearch = async () => {
-        try {
-          if (searchTerm.length >= 3) {
-            await searchInput(searchTerm);
-            navigate('/movies');
-          } 
-        } catch (error) {
-          console.error('Search error:', error);
-        }
+      if (searchTerm.length >= 3) {
+        await searchInput(searchTerm);
+        navigate('/movies');
+      } else if (searchTerm.length === 0) {
+        clearSearch();
       }
+    };
 
-    // Debounce the search to avoid too many requests
     const timeoutId = setTimeout(() => {
       handleSearch();
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [searchTerm, navigate, searchInput, fetchMovies]);
+  }, [searchTerm, navigate, searchInput, clearSearch]);
+  
 
   return (
     <div>

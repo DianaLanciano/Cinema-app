@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 const useMovieStore = create((set, get) => ({
   // State
   movies: [],
+  searchResults: [],
+  currentGenre: null,
   loading: false,
   error: null,
 
@@ -39,18 +41,23 @@ const useMovieStore = create((set, get) => ({
     }
   },
 
+  // Fetch all movies
   fetchMovies: async () => {
     set({ loading: true, error: null });
     try {
       const response = await fetch("http://localhost:8000/api/movies");
-      
       const data = await response.json();
       
       if (!response.ok) {
         throw new Error(data.error || 'Failed to fetch movies');
       }
 
-      set({ movies: data, loading: false });
+      set({ 
+        movies: data, 
+        searchResults: [], // Clear search results
+        currentGenre: null, // Clear current genre
+        loading: false 
+       });
       return data;
       
     } catch (error) {
@@ -128,8 +135,6 @@ const useMovieStore = create((set, get) => ({
   searchMoviesByGenre: async (searchCriteria) => {
     set({ loading: true, error: null });
     try {
-      console.log('Searching with criteria:', searchCriteria); // Add debug log
-      
       const response = await fetch("http://localhost:8000/api/movies", {  
         method: "POST",
         headers: { 
@@ -145,6 +150,8 @@ const useMovieStore = create((set, get) => ({
 
       set({ 
         movies: data,
+        searchResults: [], // Clear search results
+        currentGenre: searchCriteria.genre,
         loading: false 
       });
 
@@ -176,7 +183,7 @@ const useMovieStore = create((set, get) => ({
       if (!response.ok) throw new Error(data.error);
 
       set({ 
-        movies: data,
+        searchResults: data,
         loading: false 
       });
 
@@ -188,7 +195,9 @@ const useMovieStore = create((set, get) => ({
     }
   },
 
-
+  clearSearch: () => {
+    set({ searchResults: [] });
+  },
 
 }));
 
