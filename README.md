@@ -55,11 +55,3 @@ Cinema Fun is a modern web application that allows users to browse movies, book 
 - Analytics dashboard
 - Extended booking features
 
-## Installation and Setup
-[Include your installation instructions here]
-
-## Contributing
-[Include contribution guidelines here]
-
-## License
-[Include your chosen license here]
