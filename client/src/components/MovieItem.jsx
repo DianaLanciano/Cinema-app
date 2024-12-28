@@ -1,15 +1,20 @@
 import { Trash2, Edit } from "lucide-react";
+import useAuthStore from "../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 const MovieItem = ({ movie, onDelete, onEdit }) => {
-  // const isAdmin = useAuthStore((state) => state.isAdminConnected());
+  const isAdmin = useAuthStore((state) => state.isAdminConnected());
+  const navigate = useNavigate();
 
-  const isAdmin = true;
+  const handleMovieClick = () => {
+    navigate(`/movie/${movie._id}`);
+  };
 
   return (
-    <div className='relative overflow-hidden h-64 w-full rounded-lg group'>
-      <div className='w-full h-full cursor-pointer flex flex-col'>
+    <div className='relative overflow-hidden h-64 w-full rounded-lg group' >
+      <div className='w-full h-full cursor-pointer flex flex-col' onClick={handleMovieClick} >
         <div className='absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-50 z-10' />
-        <div className='relative h-48'> {/* Container for image with fixed height */}
+        <div className='relative h-48'>
           <img
             src={movie.posterUrl}
             alt={movie.title}
