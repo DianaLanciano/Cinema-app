@@ -1,3 +1,4 @@
+// server/index.js
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -5,13 +6,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import cookieParser from 'cookie-parser';
-import { subscriber, connectRedis } from "./pubsub/index.js";
+import { connectRedis } from "./pubsub/index.js";
 import { startSeatCleanup } from './middleware/seatLock.js';
 import moviesRoutes from "./routes/movie.routes.js";
 import showTimeRoutes from "./routes/showTime.routes.js";
 import subscribersRoutes from "./routes/subscriber.routes.js";
 import authRoutes from "./routes/auth.routes.js";
-import { handleNewMovieUpdate } from "./controllers/pubsub.controller.js";
 /******************************************* CONFIGURATION *******************************************/
 dotenv.config();
 const app = express();
@@ -32,15 +32,16 @@ app.use("api/showTime", showTimeRoutes);
 app.use("/api/subscribers", subscribersRoutes);
 app.use("/api/auth", authRoutes);
 
-/******************************************* PUB/SUB EVENTS *******************************************/
-const setupPubSub = async () => {
-  await connectRedis(); // Ensure Redis is connected
-  // Subscribe to 'newMovieUpdate' channel
-  await subscriber.subscribe("newMovieUpdate", message => {
-    handleNewMovieUpdate(message)
-  });
+/******************************************* REDIS PUB/SUB CONNECTION *******************************************/
+const setupRedis = async () => {
+  try {
+    await connectRedis();
+  } catch (error) {
+    console.error('Redis connection failed - notification system inactive');
+    // Server continues running even if Redis fails
+  }
 };
-setupPubSub();
+setupRedis();
 /******************************************* SEATS EVENTS *******************************************/
 startSeatCleanup();
 /******************************************* DB SETUP & SERVER CONNECTION *******************************************/

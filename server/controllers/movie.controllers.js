@@ -1,9 +1,10 @@
 import Movie from "../models/movie.model.js";
 import { publisher } from "../pubsub/index.js";
+import Subscriber from "../models/subscriber.model.js";
 
 export const getMovies = async (req, res) => {
   const { searchCriteria } = req.body;
- 
+
   try {
     let query = {};
 
@@ -21,7 +22,7 @@ export const getMovies = async (req, res) => {
     const movies = await Movie.find(query);
     res.status(200).json(movies);
   } catch (error) {
-    console.log(
+    console.error(
       "Error server/controllers/movies.controller > getMovies",
       error.message
     );
@@ -39,7 +40,7 @@ export const getMovie = async (req, res) => {
       res.send(`No movie with id: ${movieId}`);
     }
   } catch (error) {
-    console.log(
+    console.error(
       "Error server/controllers/movies.controller > getMovie",
       error.message
     );
@@ -48,7 +49,6 @@ export const getMovie = async (req, res) => {
 };
 
 export const getSearchResult = async (req, res) => {
-
   const { searchTerm } = req.body;
   let query = {};
 
@@ -56,9 +56,9 @@ export const getSearchResult = async (req, res) => {
     if (searchTerm && searchTerm.length >= 3) {
       query.$or = [
         // Search in title
-        { title: { $regex: searchTerm, $options: 'i' } },
+        { title: { $regex: searchTerm, $options: "i" } },
         // Search in actors array
-        { actors: { $regex: searchTerm, $options: 'i' } }
+        { actors: { $regex: searchTerm, $options: "i" } },
       ];
     }
     const movies = await Movie.find(query);
@@ -66,7 +66,7 @@ export const getSearchResult = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Server error while trying get movies" });
   }
-}
+};
 
 export const addMovie = async (req, res) => {
   const {
@@ -104,19 +104,34 @@ export const addMovie = async (req, res) => {
       rating: rating || 3, // Use default value if rating is not provided
       ticketPrice,
     });
-    // Save the new movie document to the database
     const savedMovie = await newMovie.save();
-    // Publish to Redis on the 'newMovieUpdate' channel
-    // Publish the new movie update to the 'newMovieUpdate' channel
-    await publisher.publish("newMovieUpdate", JSON.stringify(savedMovie));
-    // Send a success response with the saved movie data
+
+    try {
+      // Fetch subscribers from the database
+      const subscribers = await Subscriber.find({ channel: "newMovieUpdate" });
+      // Extract the emails of the subscribers
+      const subscriberEmails = subscribers.map(
+        (subscriber) => subscriber.email
+      );
+      // Create the message to send to Redis
+      const message = {
+        movie: savedMovie,
+        subscribers: subscriberEmails,
+      };
+
+      // Publish the movie and subscriber emails to Redis
+      await publisher.publish("newMovieUpdate", JSON.stringify(message));
+    } catch (error) {
+      console.error("Failed to publish to notification service - continuing");
+    }
+
     res.status(201).json(savedMovie);
   } catch (error) {
-    console.log(
+    console.error(
       "Error server/controllers/movies.controller > addMovie",
       error.message
     );
-    // Send an error response if saving fails
+
     res
       .status(400)
       .json({ message: "Failed to add movie", error: error.message });
@@ -157,7 +172,7 @@ export const deleteMovie = async (req, res) => {
       res.send(`No movie with id: ${movieId}`);
     }
   } catch (error) {
-    console.log(
+    console.error(
       "Error server/controllers/movies.controller > deleteMovie",
       error.message
     );

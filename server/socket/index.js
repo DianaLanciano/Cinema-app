@@ -1,3 +1,4 @@
+//server/pubsub/index.js
 import socketIo from 'socket.io';
 import { subscriber } from '../pubsub/index.js';
 

@@ -4,8 +4,6 @@ import User from '../models/user.model.js';
 const verifyUserLoggedIn = async (req, res, next) => {
     try {
         const token = req.cookies.jwt;
-        console.log(token);
-        
         if (!token) return res.status(401).json({error: "Unauthorized - No Token Provided"});
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -19,7 +17,7 @@ const verifyUserLoggedIn = async (req, res, next) => {
         next();
 
     } catch (error) {
-        console.log('Error in verifying user', error.message);
+        console.error('Error in verifying user', error.message);
         res.status(500).json({error: "Server error while trying verify if current user is logged in"});
     }
 };

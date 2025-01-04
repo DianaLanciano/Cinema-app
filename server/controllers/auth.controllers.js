@@ -21,7 +21,7 @@ export const login = async (req, res) => {
       email: user.email,
     });
   } catch (error) {
-    console.log("Error in login", error.message);
+    console.error("Error in login", error.message);
     res.status(500).json({ error: "Server error while trying to login" });
   }
 };
@@ -31,7 +31,7 @@ export const logout = (req, res) => {
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    console.log("Error in logout", error.message);
+    console.error("Error in logout", error.message);
     res.status(500).json({ error: "Server error while trying to logout" });
   }
 };
@@ -71,7 +71,7 @@ export const createAdminUser = async (req, res) => {
 
 
   } catch (error) {
-    console.log('Error in signup', error.message);
+    console.error('Error in signup', error.message);
     res.status(500).json({error:"Server error while trying to create an admin"});
   }
 };

@@ -167,8 +167,6 @@ const useMovieStore = create((set, get) => ({
   searchInput: async (searchTerm) => {
     set({ loading: true, error: null });
     try {
-      console.log('Searching with criteria:', searchTerm); // Add debug log
-      
       const response = await fetch("http://localhost:8000/api/movies/search", {  
         method: "POST",
         headers: { 
