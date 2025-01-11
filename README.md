@@ -38,7 +38,7 @@ Cinema Fun is a modern web application that allows users to browse movies, book 
    - Real-time seat availability updates
    - Booking confirmation
 
-3. **Notification Service**
+3. **Notification Service** (explaind: https://dianas-organization-14.gitbook.io/cinema-app/basics/editor)
   - A dedicated microservice has been implemented to handle email notifications
   - This service uses Redis pub/sub to listen for new movie releases and send notifications.
   - This functionality is separated into a microservice, ensuring that the main application remains lightweight and the notification process is handled independently.
